@@ -53,6 +53,7 @@
         />
       </div>
       <div class="track">
+        <span>Angle</span>
         <div
           @mousedown="onMouseDown"
           :style="`left: ${1.8 - (angleX - 50) / 100}rem; top: ${
@@ -117,6 +118,8 @@ section {
 
 aside {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
 
@@ -137,6 +140,7 @@ label {
 }
 
 .options-container {
+  margin-bottom: 4rem;
   display: flex;
   width: max-content;
   justify-content: space-around;
@@ -194,6 +198,11 @@ label {
   outline: 0.16rem solid rgba(44, 62, 80, 0.36);
   transition: outline 300ms, background-color 300ms;
   border-radius: 50%;
+}
+
+.track > span {
+  position: absolute;
+  top: -1.6rem;
 }
 
 .track:hover {
