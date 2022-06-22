@@ -16,8 +16,18 @@
         :class="`switch ${dimMode ? 'switch-selected' : ''}`"
         >3D Carousel</a
       >
-      <input type="range" min="0" max="32" v-model="gap" class="slider" />
+      <label for="gap">Gap</label>
       <input
+        id="gap"
+        type="range"
+        min="0"
+        max="32"
+        v-model="gap"
+        class="slider"
+      />
+      <label for="cell-size">Cell size</label>
+      <input
+        id="cell-size"
         type="range"
         min="30"
         max="200"
@@ -108,6 +118,10 @@ aside {
   justify-content: center;
 }
 
+label {
+  margin-right: 0.4rem;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -122,7 +136,7 @@ aside {
 
 .options-container {
   display: flex;
-  width: 20rem;
+  width: max-content;
   justify-content: space-around;
 }
 
@@ -130,6 +144,8 @@ aside {
   cursor: pointer;
   display: block;
   position: relative;
+  min-width: 6rem;
+  margin-inline: 0.8rem;
   margin-bottom: 1.6rem;
 }
 
@@ -202,6 +218,7 @@ aside {
 
 .slider {
   -webkit-appearance: none;
+  margin-right: 1.6rem;
   width: 12rem;
   height: 0.2rem;
   background: #2c3e50;
