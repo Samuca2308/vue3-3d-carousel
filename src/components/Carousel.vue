@@ -28,7 +28,7 @@ const rem = parseInt(getComputedStyle(document.documentElement).fontSize);
         props.dimMode == true
           ? `left: ${(14 - Number(props.cellSize) / 10) / 2}rem; width: ${
               Number(props.cellSize) / 10
-            }rem; transform: rotateY(${-40 * rotation}deg)`
+            }rem; transform: rotateY(${-45 * rotation}deg)`
           : 'transform: translateX(-32.8%); width: 280%; overflow-x: hidden;'
       "
       class="carousel"
