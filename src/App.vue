@@ -29,8 +29,8 @@
       <input
         id="cell-size"
         type="range"
-        min="30"
-        max="200"
+        min="90"
+        max="160"
         v-model="cellSize"
         class="slider"
       />
@@ -125,6 +125,7 @@ aside {
 
 label {
   margin-right: 0.4rem;
+  user-select: none;
 }
 
 #app {
@@ -203,6 +204,7 @@ label {
 .track > span {
   position: absolute;
   top: -1.6rem;
+  user-select: none;
 }
 
 .track:hover {

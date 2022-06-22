@@ -36,7 +36,8 @@ const rem = parseInt(getComputedStyle(document.documentElement).fontSize);
         :key="num"
         v-for="num in 9"
         :style="
-          `width: ${Number(props.cellSize) / 10}rem;` +
+          `width: ${Number(props.cellSize) / 10}rem;
+          filter: hue-rotate(${(360 / 9) * num}deg);` +
           (props.dimMode == true
             ? `transform: translateX(0) rotateY(${
                 (num - 1) * 40
@@ -80,9 +81,10 @@ const rem = parseInt(getComputedStyle(document.documentElement).fontSize);
   font-size: 5rem;
   width: 12rem;
   aspect-ratio: 1.62;
-  background: #ee33336d;
-  border: 0.16rem solid #ee2233;
+  background: #ce7eff;
+  border: 0.16rem solid #ce7e88;
   border-radius: 0.6rem;
+  color: #ce7e00;
   transition: all 300ms;
   left: 10px;
   top: 10px;
