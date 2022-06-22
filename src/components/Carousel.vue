@@ -23,31 +23,34 @@ const rem = parseInt(getComputedStyle(document.documentElement).fontSize);
     "
     class="container"
   >
-    <a class="arrow" @click="rotation--">‹</a>
     <div
       :style="
         props.dimMode == true
-          ? `transform: rotateY(${-40 * rotation}deg)`
+          ? `left: ${(14 - Number(props.cellSize) / 10) / 2}rem; width: ${
+              Number(props.cellSize) / 10
+            }rem; transform: rotateY(${-40 * rotation}deg)`
           : 'transform: translateX(-32.8%); width: 280%; overflow-x: hidden;'
       "
       class="carousel"
     >
       <div
         :key="num"
-        v-for="num in 9"
+        v-for="num in 8"
         :style="
           `width: ${Number(props.cellSize) / 10}rem;
-          filter: hue-rotate(${(360 / 9) * num}deg);` +
+          filter: hue-rotate(${(360 / 8) * num}deg);` +
           (props.dimMode == true
             ? `transform: translateX(0) rotateY(${
-                (num - 1) * 40
+                (num - 1) * (360 / 8)
               }deg) translateZ(${
                 Math.round(
-                  ((Number(props.cellSize) / 20) * rem) / Math.tan(Math.PI / 9)
+                  ((Number(props.cellSize) / 20) * rem) / Math.tan(Math.PI / 8)
                 ) + Number(props.gap)
               }px)`
-            : `margin-left: 7px; transform: translateX(${
-                (-rotation + num) * (190 + Number(props.gap))
+            : `transform: translateX(${
+                (-rotation + num) *
+                  ((Number(props.cellSize) / 10) * rem + Number(props.gap)) +
+                ((12 - Number(props.cellSize) / 10) * rem) / 2
               }px)`)
         "
         :class="'cell' + (props.dimMode == true ? ' dimCell' : '')"
@@ -55,7 +58,18 @@ const rem = parseInt(getComputedStyle(document.documentElement).fontSize);
         {{ num }}
       </div>
     </div>
-    <a class="arrow right" @click="rotation++">›</a>
+    <a
+      :style="`left: -${Number(props.cellSize) / 10}rem;`"
+      class="arrow"
+      @click="rotation--"
+      >‹</a
+    >
+    <a
+      :style="`left: ${(Number(props.cellSize) / 10) * 2}rem;`"
+      class="arrow right"
+      @click="rotation++"
+      >›</a
+    >
   </article>
 </template>
 
@@ -68,7 +82,6 @@ const rem = parseInt(getComputedStyle(document.documentElement).fontSize);
 }
 
 .carousel {
-  width: 100%;
   height: 100%;
   position: absolute;
   transform-style: preserve-3d;
@@ -90,18 +103,15 @@ const rem = parseInt(getComputedStyle(document.documentElement).fontSize);
   top: 10px;
 }
 
+.cell:hover {
+}
+
 .arrow {
   position: absolute;
   font-size: 3rem;
   cursor: pointer;
-  z-index: 1;
   top: 50%;
-  left: -120%;
   user-select: none;
   transform: translateY(-50%);
-}
-
-.right {
-  left: 220%;
 }
 </style>

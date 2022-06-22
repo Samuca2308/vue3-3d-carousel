@@ -16,24 +16,27 @@
         :class="`switch ${dimMode ? 'switch-selected' : ''}`"
         >3D Carousel</a
       >
-      <label for="gap">Gap</label>
-      <input
-        id="gap"
-        type="range"
-        min="0"
-        max="32"
-        v-model="gap"
-        class="slider"
-      />
-      <label for="cell-size">Cell size</label>
-      <input
-        id="cell-size"
-        type="range"
-        min="90"
-        max="160"
-        v-model="cellSize"
-        class="slider"
-      />
+      <div>
+        <label for="gap">Gap</label>
+        <input
+          id="gap"
+          type="range"
+          min="0"
+          max="32"
+          v-model="gap"
+          class="slider"
+        />
+        <br />
+        <label for="cell-size">Cell size</label>
+        <input
+          id="cell-size"
+          type="range"
+          min="90"
+          max="160"
+          v-model="cellSize"
+          class="slider"
+        />
+      </div>
     </section>
     <section
       v-show="dimMode"
@@ -126,6 +129,10 @@ aside {
 label {
   margin-right: 0.4rem;
   user-select: none;
+}
+
+input {
+  margin-block: 0.8rem;
 }
 
 #app {
