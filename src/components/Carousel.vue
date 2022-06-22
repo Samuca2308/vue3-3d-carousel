@@ -50,7 +50,9 @@ const rem = parseInt(getComputedStyle(document.documentElement).fontSize);
             : `transform: translateX(${
                 (-rotation + num) *
                   ((Number(props.cellSize) / 10) * rem + Number(props.gap)) +
-                ((12 - Number(props.cellSize) / 10) * rem) / 2
+                (12 - Number(props.cellSize) / 10) * 1.5 * rem -
+                Number(props.gap) +
+                16
               }px)`)
         "
         :class="'cell' + (props.dimMode == true ? ' dimCell' : '')"
@@ -82,7 +84,7 @@ const rem = parseInt(getComputedStyle(document.documentElement).fontSize);
 }
 
 .carousel {
-  height: 100%;
+  height: 20rem;
   position: absolute;
   transform-style: preserve-3d;
   transition: all 300ms ease-in-out;
