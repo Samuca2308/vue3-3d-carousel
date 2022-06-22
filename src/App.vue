@@ -42,7 +42,9 @@
     >
       <h3 id="dimConfig">3D mode Settings</h3>
       <div>
+        <label for="perspective">Perspective</label>
         <input
+          id="perspective"
           type="range"
           min="900"
           max="1600"
