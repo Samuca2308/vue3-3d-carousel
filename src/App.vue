@@ -1,19 +1,19 @@
 <template>
   <Carousel
-    :cellSize="cellSize"
-    :gap="gap"
-    :dimMode="dimMode"
-    :perspective="perspective"
+    :cellSize="Number(cellSize)"
+    :gap="Number(gap)"
+    :dimMode="tridimensionalMode"
+    :perspective="Number(perspective)"
     :anglex="angleX"
     :angley="angleY"
   />
   <aside>
-    <section aria-labelledby="genConfig" class="options-container">
-      <h3 id="genConfig">Settings</h3>
+    <section aria-labelledby="general-settings" class="settings-container">
+      <h3 id="general-settings">Settings</h3>
       <a
-        value="dimMode"
-        @click="dimMode = !dimMode"
-        :class="`switch ${dimMode ? 'switch-selected' : ''}`"
+        value="tridimensionalMode"
+        @click="tridimensionalMode = !tridimensionalMode"
+        :class="`switch ${tridimensionalMode ? 'switch-selected' : ''}`"
         >3D Carousel</a
       >
       <div>
@@ -39,11 +39,11 @@
       </div>
     </section>
     <section
-      v-show="dimMode"
-      aria-labelledby="dimConfig"
-      class="options-container"
+      v-show="tridimensionalMode === true"
+      aria-labelledby="tridimensional-settings"
+      class="settings-container"
     >
-      <h3 id="dimConfig">3D mode Settings</h3>
+      <h3 id="tridimensional-settings">3D mode Settings</h3>
       <div>
         <label for="perspective">Perspective</label>
         <input
@@ -73,12 +73,12 @@
 import { onMounted, Ref, ref } from 'vue';
 import Carousel from './components/Carousel.vue';
 
-const dimMode = ref(false);
-const cellSize = ref(120);
-const gap = ref(16);
-const angleX = ref(50);
-const angleY = ref(50);
-const perspective = ref(1250);
+const tridimensionalMode: Ref<Boolean> = ref(false);
+const cellSize: Ref<Number> = ref(120);
+const gap: Ref<Number> = ref(16);
+const angleX: Ref<Number> = ref(50);
+const angleY: Ref<Number> = ref(50);
+const perspective: Ref<Number> = ref(1250);
 
 var pos1 = 0,
   pos2 = 0,
@@ -101,7 +101,6 @@ function elementDrag(e: any) {
   ax <= 150 && ax >= -100 ? (angleX.value = ax) : null;
   let ay = angleY.value + (pos2 * 100) / 16;
   ay <= 150 && ay >= -100 ? (angleY.value = ay) : null;
-  console.log(angleX.value, angleY.value);
 }
 
 function closeDragElement() {
@@ -142,13 +141,13 @@ input {
   color: #2c3e50;
 }
 
-.options-container > h3 {
+.settings-container > h3 {
   position: absolute;
   top: -4.6rem;
 }
 
-.options-container {
-  margin-bottom: 4rem;
+.settings-container {
+  margin-bottom: 6rem;
   display: flex;
   width: max-content;
   justify-content: space-around;

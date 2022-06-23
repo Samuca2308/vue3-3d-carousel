@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, toRef, computed } from 'vue';
 
 const props = defineProps({
   dimMode: Boolean,
@@ -10,8 +10,28 @@ const props = defineProps({
   perspective: Number,
 });
 
+const cellSize = toRef(props, 'cellSize');
+const gap = toRef(props, 'gap');
+const cellRem = computed(() => {
+  return cellSize.value / 10;
+});
+
 const rotation = ref(0);
 const rem = parseInt(getComputedStyle(document.documentElement).fontSize);
+
+function rotate(clockwise: Boolean) {
+  clockwise ? (rotation.value--, func()) : (rotation.value++, func());
+}
+
+function func() {
+  if (rotation.value < 0) {
+    var cols = document.getElementsByClassName('transition');
+    for (let i = 0; i < cols.length; i++) {
+      cols[i].classList.remove('transition');
+    }
+    rotation.value = 7;
+  }
+}
 </script>
 
 <template>
@@ -26,42 +46,41 @@ const rem = parseInt(getComputedStyle(document.documentElement).fontSize);
     <div
       :style="
         props.dimMode == true
-          ? `left: ${(14 - Number(props.cellSize) / 10) / 2}rem; width: ${
-              Number(props.cellSize) / 10
-            }rem; transform: rotateY(${-45 * rotation}deg)`
+          ? `left: ${
+              (14 - cellRem) / 2
+            }rem; width: ${cellRem}rem; transform: rotateY(${
+              -45 * rotation
+            }deg)`
           : 'transform: translateX(-25%); width: 200%; overflow-x: hidden;'
       "
-      :class="`carousel ${props.dimMode == true ? '' : 'td'}`"
+      :class="`carousel transition ${props.dimMode == true ? '' : 'td'}`"
     >
       <div
         :key="num"
         v-for="num in 8"
         :style="
-          `width: ${Number(props.cellSize) / 10}rem;
+          `width: ${cellRem}rem;
           filter: hue-rotate(${(360 / 8) * num}deg);` +
           (props.dimMode == true
             ? `transform: translateX(0) rotateY(${
                 (num - 1) * (360 / 8)
               }deg) translateZ(${
-                Math.round(
-                  ((Number(props.cellSize) / 20) * rem) / Math.tan(Math.PI / 8)
-                ) + Number(props.gap)
+                Math.round(((cellRem / 2) * rem) / Math.tan(Math.PI / 8)) + gap
               }px)`
             : `transform: translateX(${
                 -5 * rem +
-                (-rotation + num) *
-                  ((Number(props.cellSize) / 10) * rem + Number(props.gap)) +
-                (12 - Number(props.cellSize) / 10) * 1.5 * rem -
-                Number(props.gap)
+                (-rotation + num) * (cellRem * rem + gap) +
+                (12 - cellRem) * 1.5 * rem -
+                gap
               }px)`)
         "
-        :class="'cell' + (props.dimMode == true ? ' dimCell' : '')"
+        :class="'cell transition' + (props.dimMode == true ? ' dimCell' : '')"
       >
         {{ num }}
       </div>
     </div>
-    <a :style="`left: -4rem;`" class="arrow" @click="rotation--">‹</a>
-    <a :style="`left: 17rem;`" class="arrow right" @click="rotation++">›</a>
+    <a :style="`left: -4rem;`" class="arrow" @click="rotate(true)">‹</a>
+    <a :style="`left: 17rem;`" class="arrow right" @click="rotate(false)">›</a>
   </article>
 </template>
 
@@ -77,7 +96,6 @@ const rem = parseInt(getComputedStyle(document.documentElement).fontSize);
   height: 20rem;
   position: absolute;
   transform-style: preserve-3d;
-  transition: all 300ms ease-in-out;
 }
 
 .td::after {
@@ -99,12 +117,12 @@ const rem = parseInt(getComputedStyle(document.documentElement).fontSize);
   border: 0.16rem solid #ce7e88;
   border-radius: 0.6rem;
   color: #ce7e00;
-  transition: all 300ms;
   left: 10px;
   top: 10px;
 }
 
-.cell:hover {
+.transition {
+  transition: transform 300ms ease-in-out;
 }
 
 .arrow {
