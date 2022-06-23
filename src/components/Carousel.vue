@@ -25,11 +25,9 @@ function rotate(clockwise: Boolean) {
 
 function func() {
   if (rotation.value < 0) {
-    var cols = document.getElementsByClassName('transition');
-    for (let i = 0; i < cols.length; i++) {
-      cols[i].classList.remove('transition');
-    }
     rotation.value = 7;
+  } else if (rotation.value > 7) {
+    rotation.value = 0;
   }
 }
 </script>
