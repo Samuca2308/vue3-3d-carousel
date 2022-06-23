@@ -31,7 +31,7 @@ const rem = parseInt(getComputedStyle(document.documentElement).fontSize);
             }rem; transform: rotateY(${-45 * rotation}deg)`
           : 'transform: translateX(-25%); width: 200%; overflow-x: hidden;'
       "
-      class="carousel"
+      :class="`carousel ${props.dimMode == true ? '' : 'td'}`"
     >
       <div
         :key="num"
@@ -67,7 +67,7 @@ const rem = parseInt(getComputedStyle(document.documentElement).fontSize);
 
 <style scoped>
 .container {
-  margin: 10% auto;
+  margin: 10% auto 8rem auto;
   width: 14rem;
   height: 9rem;
   position: relative;
@@ -78,6 +78,15 @@ const rem = parseInt(getComputedStyle(document.documentElement).fontSize);
   position: absolute;
   transform-style: preserve-3d;
   transition: all 300ms ease-in-out;
+}
+
+.td::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  box-shadow: inset 0 0 1.2rem 4rem white;
+  transform: translateY(-6rem);
 }
 
 .cell {
