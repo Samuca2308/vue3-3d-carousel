@@ -16,21 +16,12 @@ const cellRem = computed(() => {
   return cellSize.value / 10;
 });
 
-const rotation = ref(0);
+const rotation = ref(104);
 const rem = parseInt(getComputedStyle(document.documentElement).fontSize);
 const carousel: Ref<HtmlElement | null> = ref(null);
 
 function rotate(clockwise: Boolean) {
-  clockwise ? (rotation.value--, func()) : (rotation.value++, func());
-}
-
-function func() {
-  /*
-  if (rotation.value < 0) {
-    rotation.value = 7;
-  } else if (rotation.value > 7) {
-    rotation.value = 0;
-  }*/
+  clockwise ? rotation.value-- : rotation.value++;
 }
 </script>
 
