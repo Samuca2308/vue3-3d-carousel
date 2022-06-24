@@ -18,17 +18,19 @@ const cellRem = computed(() => {
 
 const rotation = ref(0);
 const rem = parseInt(getComputedStyle(document.documentElement).fontSize);
+const carousel: Ref<HtmlElement | null> = ref(null);
 
 function rotate(clockwise: Boolean) {
   clockwise ? (rotation.value--, func()) : (rotation.value++, func());
 }
 
 function func() {
+  /*
   if (rotation.value < 0) {
     rotation.value = 7;
   } else if (rotation.value > 7) {
     rotation.value = 0;
-  }
+  }*/
 }
 </script>
 
@@ -42,37 +44,55 @@ function func() {
     class="container"
   >
     <div
+      ref="carousel"
       :style="
         props.dimMode == true
-          ? `left: ${
-              (14 - cellRem) / 2
-            }rem; width: ${cellRem}rem; transform: rotateY(${
-              -45 * rotation
-            }deg)`
-          : 'transform: translateX(-25%); width: 200%; overflow-x: hidden;'
+          ? `left: ${(14 - cellRem) / 2}rem; width: ${
+              cellRem + 2
+            }rem; transform: rotateY(${-45 * rotation}deg)`
+          : 'transform: translateX(-25%); width: 200%;'
       "
-      :class="`carousel transition ${props.dimMode == true ? '' : 'td'}`"
+      :class="`carousel ${props.dimMode == true ? '' : 'td'}`"
     >
       <div
         :key="num"
         v-for="num in 8"
         :style="
-          `width: ${cellRem}rem;
-          filter: hue-rotate(${(360 / 8) * num}deg);` +
+          `width: ${cellRem}rem;` +
           (props.dimMode == true
             ? `transform: translateX(0) rotateY(${
                 (num - 1) * (360 / 8)
               }deg) translateZ(${
                 Math.round(((cellRem / 2) * rem) / Math.tan(Math.PI / 8)) + gap
               }px)`
-            : `transform: translateX(${
-                -5 * rem +
-                (-rotation + num) * (cellRem * rem + gap) +
+            : `transform: translateX(
+              
+              
+              ${
+                -5 * rem + // -5rem
+                (num == 8 && rotation % 8 == 0
+                  ? 0
+                  : -(rotation % 8) + // - index
+                    (num > (rotation % 8) - 2 && num < (rotation % 8) + 6 // cut in half
+                      ? 0
+                      : 8) +
+                    num) *
+                  (cellRem * rem + gap) + //
                 (12 - cellRem) * 1.5 * rem -
                 gap
-              }px)`)
+              }px);
+              
+              opacity: ${
+                rotation % 8 == 7 && (num == 7 || num == 8 || num == 1)
+                  ? '1'
+                  : rotation % 8 == 0 && (num == 8 || num == 1 || num == 2)
+                  ? '1'
+                  : num > (rotation % 8) + 2 || num < rotation % 8
+                  ? '0'
+                  : '1'
+              };`)
         "
-        :class="'cell transition' + (props.dimMode == true ? ' dimCell' : '')"
+        :class="'cell' + (props.dimMode == true ? ' dimCell' : '')"
       >
         {{ num }}
       </div>
@@ -94,6 +114,7 @@ function func() {
   height: 20rem;
   position: absolute;
   transform-style: preserve-3d;
+  transition: transform 300ms ease-in-out;
 }
 
 .td::after {
@@ -101,7 +122,6 @@ function func() {
   position: absolute;
   width: 100%;
   height: 100%;
-  box-shadow: inset 0 0 1.2rem 4rem white;
   transform: translateY(-6rem);
 }
 
@@ -113,14 +133,11 @@ function func() {
   aspect-ratio: 1.62;
   background: #ce7eff;
   border: 0.16rem solid #ce7e88;
+  transition: transform 300ms ease-in-out;
   border-radius: 0.6rem;
   color: #ce7e00;
   left: 10px;
   top: 10px;
-}
-
-.transition {
-  transition: transform 300ms ease-in-out;
 }
 
 .arrow {
